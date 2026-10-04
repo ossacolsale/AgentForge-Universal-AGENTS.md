@@ -4,7 +4,7 @@ A compact, reusable operating guide for AI coding agents. The root [`AGENTS.md`]
 
 ## Use
 
-Copy `AGENTS.md` into a project's root, then adapt its repository map and validation references to that project. Keep it generic where possible and specific where evidence supports it. See [version](VERSION) and [changelog](CHANGELOG.md).
+Copy `AGENTS.md` into a project's root, then adapt its repository map and validation references to that project. Keep it generic where possible and specific where evidence supports it. See [version](VERSION), [changelog](CHANGELOG.md), and the [MIT license](LICENSE).
 
 ## Validate this repository
 
