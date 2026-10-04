@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- Added reusable guidance for reliable, tag-based GitHub Release pipelines in software projects.
+
 ## 0.1.0
 
 ### Added

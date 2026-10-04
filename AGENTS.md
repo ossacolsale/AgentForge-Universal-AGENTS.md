@@ -29,7 +29,13 @@ For code changes, run the complete applicable suite: relevant tests plus project
 
 Use the project's declared version source and Semantic Versioning unless its ecosystem specifies otherwise: breaking change = major, compatible capability = minor, compatible fix = patch. Update all exposed version metadata and the changelog for code changes; documentation-only edits do not require a version bump. Start new projects at `0.1.0`.
 
-Add or activate release automation only after the user explicitly requests it. That request authorizes the pipeline, not publishing, tagging, or deployment; those actions need their own explicit authorization. Keep authorized release logic documented and ensure it gates on valid builds and tests where feasible.
+When adapting this guide for a software project that distributes software, provide a usable GitHub Actions release pipeline when work concerns building, packaging, versioning, distribution, or release. Keep release readiness separate from actually publishing packages, deploying, or creating releases: those external actions need explicit authorization. Do not add release automation to documentation-only repositories that do not distribute software.
+
+A release pipeline should separate target validation, test/build, artifact packaging, artifact validation, and GitHub Release publishing. Publishing must depend on successful test/build and artifact checks, and use `contents: write` only in the publish job when needed. Use immutable SemVer tags as release identities. Prefer both tag-push and `workflow_dispatch` with a tag input. For a manual run, verify the tag exists, resolve and check out that tag, validate its SemVer and package versions, and rebuild artifacts from that commit rather than from the default branch. A corrected workflow on the default branch must be able to rerun the same tag without moving or recreating it or relying on artifacts from an earlier run.
+
+Make publishing safe to retry: do not create a duplicate GitHub Release when one already exists. Serialize concurrent publishes for the same tag. Validate each package using its actual format, with coverage for valid, corrupt or truncated, incomplete, and prohibited local or sensitive contents. Produce versioned artifacts and checksums when applicable; document release notes and recognize prereleases. Keep external registry publishing as a separate, explicitly authorized step. Document how to create a release and rerun an existing tag, and update AI instructions when release or CI workflows change.
+
+Before completing release-pipeline work, inspect all workflows and verify their triggers, permissions, dependencies, artifact paths and checks, and that manual reruns check out the requested tag. Run applicable checks and inspect the final diff. Report whether the pipeline was validated locally; do not imply that a release was published or verified on GitHub unless that actually happened.
 
 ## Completion
 
