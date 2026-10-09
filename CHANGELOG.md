@@ -3,6 +3,7 @@
 ## Unreleased
 
 ### Changed
+- Added automatic session-state recovery guidance and a concise operational memory file.
 - Added reusable guidance for reliable, tag-based GitHub Release pipelines in software projects.
 
 ## 0.1.0

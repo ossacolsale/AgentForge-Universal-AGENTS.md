@@ -4,6 +4,8 @@
 
 Use these rules throughout the repository. A nearer `AGENTS.md` may add scope-specific rules but must not weaken an explicit global requirement. Start here, read [`docs/ai/INDEX.md`](docs/ai/INDEX.md), then inspect only the files relevant to the task; broaden the search when evidence requires it.
 
+At the start of each new work session, check for `docs/ai/SESSION-STATE.md`. If present, read it for ongoing work, decisions, open issues, and the next action; verify relevant details against current Git state, since the file does not prove changes are correct. Resume at the appropriate point without asking the user to locate the file. If it is missing, inactive, or unrelated to the current request, proceed normally without rebuilding unrelated context. Do not reread it in the same session unless relevant changes occur.
+
 ## Repository map
 
 - `docs/ai/`: concise architecture and file map for this baseline repository.
@@ -20,6 +22,7 @@ For another project, replace this map and document its real entry points, config
 - Validate external input, handle errors explicitly, and never expose or commit secrets or sensitive data.
 - Edit sources of truth, regenerate derived files when needed, and document that relationship.
 - Keep user and AI documentation accurate. Update `docs/ai/` when structure, ownership, or workflows change; add a concise changelog entry for every meaningful change.
+- Before ending significant incomplete work, update `docs/ai/SESSION-STATE.md` with only its objective and status, relevant results and checks, decisions or open issues, next concrete action, and file or Git references. When work is complete, leave no fictitious pending task; do not record conversation logs or details recoverable from Git.
 
 ## Verification
 

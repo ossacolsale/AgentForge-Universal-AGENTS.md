@@ -7,6 +7,7 @@
 | `LICENSE` | MIT license and copyright notice | License terms or holder change |
 | `VERSION`, `CHANGELOG.md` | Version source and history | A release or meaningful change occurs |
 | `docs/ai/` | This repository's structure and maintenance guide | Layout or workflow changes |
+| `docs/ai/SESSION-STATE.md` | Brief operational memory for work that spans sessions | Significant incomplete work needs a handoff; clear it when no work is pending |
 | `scripts/validate_repo.py` | Dependency-free structural checks | Required files or invariants change |
 | `.github/workflows/ci.yml` | Push/PR validation | CI behavior changes |
 
