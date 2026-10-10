@@ -2,47 +2,40 @@
 
 ## Purpose
 
-This is a short operating contract and navigation map—not the product specification, architecture manual, implementation plan, or project history. Keep only rules that matter to most tasks. Put detailed project knowledge in focused documents and link to it from an index.
+This is an operating contract for AI agents, not the product specification, functional analysis, architecture manual, plan, or project history. Keep broadly applicable rules here; store detailed knowledge in focused documents and link to authoritative sources from an index when useful.
 
-## Default behavior
+## Working rules
 
-- Follow the user's request and the applicable instruction hierarchy. More-specific repository instructions may add detail; surface conflicts instead of silently guessing.
-- Inspect the current working tree and relevant files before editing. Preserve unrelated user changes; do not assume the checkout is clean.
-- Make the smallest complete change. Prefer existing patterns; avoid speculative refactors, needless dependencies, duplicate explanations, and process for its own sake.
-- Use progressive disclosure: inspect only the context needed for the task, then broaden the search when uncertainty or evidence warrants it.
-- Protect secrets and sensitive data. Do not perform destructive operations, publish, deploy, modify external services, or incur material costs without explicit authorization.
+- Follow the user's request and applicable instruction hierarchy. Surface conflicts rather than silently guessing.
+- Inspect the working tree and relevant files before editing. Preserve unrelated changes; never assume the checkout is clean.
+- Make the smallest complete change. Prefer existing patterns; avoid speculative refactors, needless dependencies, duplication, and process for its own sake.
+- Use progressive disclosure: read only what the task needs. For a small, self-contained change, inspect target files and local instructions; do not read every index, specification, plan, or test report. For cross-cutting, architectural, ambiguous, high-risk, or resumed work, consult `docs/ai/INDEX.md` if present, then open only relevant entries.
+- Consult `docs/ai/SESSION-STATE.md` only when the task may continue unfinished work. Treat it as a handoff, not proof; verify relevant claims against Git, the working tree, and tests. Do not reconstruct unrelated history.
+- Protect secrets and sensitive data. Destructive actions, publication, deployment, changes to external services, or material costs require explicit authorization.
 
-## Find the right context
+## Document roles
 
-- For a small, self-contained change, inspect the target files and applicable local instructions. Do not read every index, specification, plan, or test report by default.
-- For cross-cutting, architectural, ambiguous, or high-risk work—or when resuming unfinished work—consult `docs/ai/INDEX.md` if present, then open only relevant entries.
-- Consult `docs/ai/SESSION-STATE.md` when the task may continue active work. Treat it as a handoff, not proof; verify important claims against the working tree, Git, and relevant tests. Do not reconstruct unrelated history.
-- Prefer targeted file/term searches to reading entire documentation trees. Before creating a document, find its proper existing home.
-- Give each durable fact one authoritative home. Summarize only what the reader needs and link to the source; avoid parallel copies that can drift.
+- **`AGENTS.md`:** general agent rules, safety, verification, and navigation. Never turn it into functional analysis or a component-by-component manual.
+- **Index:** concise list of authoritative documents and when to consult them; do not repeat their contents.
+- **Functional specifications:** intended behavior, requirements, acceptance criteria, and focused feature/component analysis. Use an index for substantial products; do not impose needless structure on small projects.
+- **Architecture/decisions:** system boundaries, interfaces, durable decisions, and rationale.
+- **Plans/test reports:** plans only for substantial multi-stage work; reports record reproducible scenarios, actual results, limitations, and evidence.
+- **`SESSION-STATE.md`:** unfinished work only—objective, verified status, blocker/open decision, next action, and essential file/commit references. Keep it to about 150 words or fewer; no conversation logs or facts readily recovered from Git. Mark inactive or clear it when work is complete.
 
-## Document responsibilities
+Code and tests describe current implementation; approved specifications describe intended behavior. If they disagree, investigate and report the discrepancy.
 
-- **`AGENTS.md`** — broadly applicable agent rules, safety, verification expectations, and pointers. Never turn it into functional analysis or a component-by-component manual.
-- **Documentation index** — a concise catalogue of authoritative documents and when to read them; do not repeat their contents.
-- **Functional/product specifications** — intended behavior, requirements, acceptance criteria, and focused per-feature or per-component analysis. For a substantial product, maintain an index linking to these focused specifications.
-- **Architecture/decision records** — system boundaries, interfaces, durable decisions, and rationale.
-- **Plans** — next steps for substantial multi-stage work only; mark completed plans so they are not mistaken for active work.
-- **Test reports** — reproducible scenarios, environment, actual results, limitations, and evidence.
-- **`SESSION-STATE.md`** — active unfinished work only: objective, verified status, blocker/open decision, next action, and essential file/commit references. Aim for 150 words or fewer. No conversation logs, general summaries, or facts readily recovered from Git; mark inactive or clear it when work is complete.
+## Changes and verification
 
-Source code and tests describe current implementation; approved specifications describe intended behavior. If they disagree, investigate and report the discrepancy rather than silently treating either as proof of the other.
+- Plan only when staged execution materially helps. Update documentation when a change makes it inaccurate or alters durable requirements, architecture, interfaces, workflows, or validation. Follow project changelog/version policy; documentation-only changes need no version bump unless policy says otherwise.
+- Run checks proportionate to the task and risk: targeted checks for narrow changes, broader suites for cross-cutting or high-risk work. Add regression coverage for bug fixes where practical. Report only checks actually run.
+- Inspect the final diff for unintended changes. Do not add or redesign release automation for unrelated work.
 
-## Change and verification
+## Release work
 
-- Write a plan only when the task is substantial or risky enough to benefit from staged execution. Keep it proportional; do not maintain duplicate plans and status narratives.
-- Update documentation only when the change makes it inaccurate or changes durable requirements, architecture, interfaces, workflows, or validation. Follow existing changelog/version conventions for user-visible or release-relevant changes; documentation-only edits do not need a version bump unless project policy says otherwise.
-- Run checks appropriate to the change and its risk: targeted checks for narrow changes, broader suites for cross-cutting or high-risk work. Add regression coverage for bug fixes where practical. Report only checks actually run and state what was not run.
-- Inspect the final diff for unintended changes and confirm affected documentation matches the implementation and evidence. Do not add or redesign release automation for unrelated work.
+This section applies only to builds, packaging, versioning, distribution, and releases. Inspect existing release documentation and workflows first; consult a dedicated release guide only when relevant. Validate the intended tag/version and source revision and the produced artifacts; make reruns safe where applicable and use least-privilege permissions. Publishing, deployment, or external release actions require explicit authorization. Never claim an external release succeeded unless verified.
 
-## Handoff and completion
+## Completion
 
-When significant work remains unfinished, update `docs/ai/SESSION-STATE.md` using the short format above. Do not leave a completed task marked as pending. Finish with a concise summary of changes, checks/results, and unresolved issues or next actions. Never claim an unverified test, build, release, or deployment succeeded.
+For significant unfinished work, update `docs/ai/SESSION-STATE.md` if present; do not leave completed work marked pending. Finish with a concise summary of changes, checks/results, and unresolved issues or next actions. Never claim unverified checks, builds, releases, or deployments succeeded.
 
-## Repository entry point
-
-Use `docs/ai/INDEX.md`, when present, to navigate non-trivial project documentation. Follow the repository README and existing configuration/scripts for setup and validation. When copying this template into another project, replace or remove nonexistent paths; add only the real entry points and commands an agent needs.
+Use `docs/ai/INDEX.md`, when present, to navigate non-trivial documentation. Follow the README and existing configuration/scripts for setup and validation. When adapting this template, replace or remove nonexistent paths and add only real entry points and commands.
