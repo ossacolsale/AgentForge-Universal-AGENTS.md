@@ -1,14 +1,21 @@
 # Repository map
 
-| Path | Role | Change when |
-| --- | --- | --- |
-| `AGENTS.md` | Copyable, technology-agnostic agent contract | Baseline rules change |
-| `README.md` | Human-facing use and validation instructions | Onboarding or commands change |
-| `LICENSE` | MIT license and copyright notice | License terms or holder change |
-| `VERSION`, `CHANGELOG.md` | Version source and history | A release or meaningful change occurs |
-| `docs/ai/` | This repository's structure and maintenance guide | Layout or workflow changes |
-| `docs/ai/SESSION-STATE.md` | Brief operational memory for work that spans sessions | Significant incomplete work needs a handoff; clear it when no work is pending |
-| `scripts/validate_repo.py` | Dependency-free structural checks | Required files or invariants change |
-| `.github/workflows/ci.yml` | Push/PR validation | CI behavior changes |
+This is a documentation-first template repository. Its current layout is:
 
-There are no application modules, generated files, or external dependencies. Keep this repository documentation-first; add tooling only to enforce a real invariant.
+```text
+AGENTS.md
+README.md
+CHANGELOG.md
+VERSION
+LICENSE
+docs/ai/
+  INDEX.md
+  CODE-MAP.md
+  SESSION-STATE.md
+scripts/
+  validate_repo.py
+.github/workflows/
+  ci.yml
+```
+
+There are no application modules, generated files, or third-party runtime dependencies. The [documentation index](INDEX.md) describes document ownership; this map records locations only. Update it when the repository layout changes.

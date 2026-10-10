@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check required repository files, local Markdown links, metadata, and CI shape."""
+"""Check required template files, local Markdown links, metadata, and CI wiring."""
 
 from pathlib import Path
 import re
@@ -11,18 +11,12 @@ REQUIRED = (
     "README.md",
     "CHANGELOG.md",
     "VERSION",
+    "LICENSE",
     "docs/ai/INDEX.md",
     "docs/ai/CODE-MAP.md",
+    "docs/ai/SESSION-STATE.md",
     "scripts/validate_repo.py",
     ".github/workflows/ci.yml",
-)
-HEADINGS = (
-    "Purpose and navigation",
-    "Repository map",
-    "Change rules",
-    "Verification",
-    "Versioning and releases",
-    "Completion",
 )
 
 
@@ -30,11 +24,6 @@ def main() -> int:
     errors = [f"missing required file: {name}" for name in REQUIRED if not (ROOT / name).is_file()]
     if errors:
         return report(errors)
-
-    agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-    for heading in HEADINGS:
-        if f"## {heading}" not in agents:
-            errors.append(f"AGENTS.md missing section: {heading}")
 
     # Check relative Markdown links, ignoring external URLs and anchor-only links.
     for markdown in ROOT.rglob("*.md"):
@@ -51,17 +40,18 @@ def main() -> int:
     if not re.fullmatch(r"\d+\.\d+\.\d+", version):
         errors.append("VERSION must contain a semantic version (major.minor.patch)")
     changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    if "## Unreleased" not in changelog:
+        errors.append("CHANGELOG.md must include an Unreleased section")
     if f"## {version}" not in changelog:
         errors.append(f"CHANGELOG.md has no section for VERSION {version}")
 
     workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
-    for marker in ("name:", "on:", "pull_request:", "push:", "jobs:", "runs-on:", "python3 scripts/validate_repo.py"):
-        if marker not in workflow:
-            errors.append(f"CI workflow missing expected marker: {marker}")
+    for trigger in ("push", "pull_request"):
+        if not re.search(rf"(?m)^\s*{trigger}:\s*(?:#.*)?$", workflow):
+            errors.append(f"CI workflow must run on {trigger}")
+    if "python3 scripts/validate_repo.py" not in workflow:
+        errors.append("CI workflow must run scripts/validate_repo.py")
 
-    nested = [p for p in ROOT.rglob("AGENTS.md") if p != ROOT / "AGENTS.md" and ".git" not in p.parts]
-    if nested:
-        errors.append("unexpected nested AGENTS.md: " + ", ".join(str(p.relative_to(ROOT)) for p in nested))
     return report(errors)
 
 

@@ -1,45 +1,48 @@
 # AGENTS.md
 
-## Purpose and navigation
+## Purpose
 
-Use these rules throughout the repository. A nearer `AGENTS.md` may add scope-specific rules but must not weaken an explicit global requirement. Start here, read [`docs/ai/INDEX.md`](docs/ai/INDEX.md), then inspect only the files relevant to the task; broaden the search when evidence requires it.
+This is a short operating contract and navigation map—not the product specification, architecture manual, implementation plan, or project history. Keep only rules that matter to most tasks. Put detailed project knowledge in focused documents and link to it from an index.
 
-At the start of each new work session, check for `docs/ai/SESSION-STATE.md`. If present, read it for ongoing work, decisions, open issues, and the next action; verify relevant details against current Git state, since the file does not prove changes are correct. Resume at the appropriate point without asking the user to locate the file. If it is missing, inactive, or unrelated to the current request, proceed normally without rebuilding unrelated context. Do not reread it in the same session unless relevant changes occur.
+## Default behavior
 
-## Repository map
+- Follow the user's request and the applicable instruction hierarchy. More-specific repository instructions may add detail; surface conflicts instead of silently guessing.
+- Inspect the current working tree and relevant files before editing. Preserve unrelated user changes; do not assume the checkout is clean.
+- Make the smallest complete change. Prefer existing patterns; avoid speculative refactors, needless dependencies, duplicate explanations, and process for its own sake.
+- Use progressive disclosure: inspect only the context needed for the task, then broaden the search when uncertainty or evidence warrants it.
+- Protect secrets and sensitive data. Do not perform destructive operations, publish, deploy, modify external services, or incur material costs without explicit authorization.
 
-- `docs/ai/`: concise architecture and file map for this baseline repository.
-- `scripts/validate_repo.py`: dependency-free repository self-check.
-- `.github/workflows/`: CI validation; no publishing or release automation.
-- `VERSION`, `CHANGELOG.md`: current version and change history.
+## Find the right context
 
-For another project, replace this map and document its real entry points, configuration, tests, generated files, and validation commands.
+- For a small, self-contained change, inspect the target files and applicable local instructions. Do not read every index, specification, plan, or test report by default.
+- For cross-cutting, architectural, ambiguous, or high-risk work—or when resuming unfinished work—consult `docs/ai/INDEX.md` if present, then open only relevant entries.
+- Consult `docs/ai/SESSION-STATE.md` when the task may continue active work. Treat it as a handoff, not proof; verify important claims against the working tree, Git, and relevant tests. Do not reconstruct unrelated history.
+- Prefer targeted file/term searches to reading entire documentation trees. Before creating a document, find its proper existing home.
+- Give each durable fact one authoritative home. Summarize only what the reader needs and link to the source; avoid parallel copies that can drift.
 
-## Change rules
+## Document responsibilities
 
-- Classify the change first; make the smallest complete, relevant edit.
-- Keep code clear, modular, and explicit. Prefer existing capabilities; avoid needless dependencies, abstractions, duplication, and comments that restate code. Comment intent or non-obvious constraints.
-- Validate external input, handle errors explicitly, and never expose or commit secrets or sensitive data.
-- Edit sources of truth, regenerate derived files when needed, and document that relationship.
-- Keep user and AI documentation accurate. Update `docs/ai/` when structure, ownership, or workflows change; add a concise changelog entry for every meaningful change.
-- Before ending significant incomplete work, update `docs/ai/SESSION-STATE.md` with only its objective and status, relevant results and checks, decisions or open issues, next concrete action, and file or Git references. When work is complete, leave no fictitious pending task; do not record conversation logs or details recoverable from Git.
+- **`AGENTS.md`** — broadly applicable agent rules, safety, verification expectations, and pointers. Never turn it into functional analysis or a component-by-component manual.
+- **Documentation index** — a concise catalogue of authoritative documents and when to read them; do not repeat their contents.
+- **Functional/product specifications** — intended behavior, requirements, acceptance criteria, and focused per-feature or per-component analysis. For a substantial product, maintain an index linking to these focused specifications.
+- **Architecture/decision records** — system boundaries, interfaces, durable decisions, and rationale.
+- **Plans** — next steps for substantial multi-stage work only; mark completed plans so they are not mistaken for active work.
+- **Test reports** — reproducible scenarios, environment, actual results, limitations, and evidence.
+- **`SESSION-STATE.md`** — active unfinished work only: objective, verified status, blocker/open decision, next action, and essential file/commit references. Aim for 150 words or fewer. No conversation logs, general summaries, or facts readily recovered from Git; mark inactive or clear it when work is complete.
 
-## Verification
+Source code and tests describe current implementation; approved specifications describe intended behavior. If they disagree, investigate and report the discrepancy rather than silently treating either as proof of the other.
 
-For code changes, run the complete applicable suite: relevant tests plus project-defined lint, formatting, type, static, build, package, configuration, dependency, security, and workflow checks. Add or update regression coverage for bug fixes. Choose checks that match the project's architecture and risk; do not claim checks you did not run. Documentation-only edits need consistency and repository checks, not irrelevant code checks.
+## Change and verification
 
-## Versioning and releases
+- Write a plan only when the task is substantial or risky enough to benefit from staged execution. Keep it proportional; do not maintain duplicate plans and status narratives.
+- Update documentation only when the change makes it inaccurate or changes durable requirements, architecture, interfaces, workflows, or validation. Follow existing changelog/version conventions for user-visible or release-relevant changes; documentation-only edits do not need a version bump unless project policy says otherwise.
+- Run checks appropriate to the change and its risk: targeted checks for narrow changes, broader suites for cross-cutting or high-risk work. Add regression coverage for bug fixes where practical. Report only checks actually run and state what was not run.
+- Inspect the final diff for unintended changes and confirm affected documentation matches the implementation and evidence. Do not add or redesign release automation for unrelated work.
 
-Use the project's declared version source and Semantic Versioning unless its ecosystem specifies otherwise: breaking change = major, compatible capability = minor, compatible fix = patch. Update all exposed version metadata and the changelog for code changes; documentation-only edits do not require a version bump. Start new projects at `0.1.0`.
+## Handoff and completion
 
-When adapting this guide for a software project that distributes software, provide a usable GitHub Actions release pipeline when work concerns building, packaging, versioning, distribution, or release. Keep release readiness separate from actually publishing packages, deploying, or creating releases: those external actions need explicit authorization. Do not add release automation to documentation-only repositories that do not distribute software.
+When significant work remains unfinished, update `docs/ai/SESSION-STATE.md` using the short format above. Do not leave a completed task marked as pending. Finish with a concise summary of changes, checks/results, and unresolved issues or next actions. Never claim an unverified test, build, release, or deployment succeeded.
 
-A release pipeline should separate target validation, test/build, artifact packaging, artifact validation, and GitHub Release publishing. Publishing must depend on successful test/build and artifact checks, and use `contents: write` only in the publish job when needed. Use immutable SemVer tags as release identities. Prefer both tag-push and `workflow_dispatch` with a tag input. For a manual run, verify the tag exists, resolve and check out that tag, validate its SemVer and package versions, and rebuild artifacts from that commit rather than from the default branch. A corrected workflow on the default branch must be able to rerun the same tag without moving or recreating it or relying on artifacts from an earlier run.
+## Repository entry point
 
-Make publishing safe to retry: do not create a duplicate GitHub Release when one already exists. Serialize concurrent publishes for the same tag. Validate each package using its actual format, with coverage for valid, corrupt or truncated, incomplete, and prohibited local or sensitive contents. Produce versioned artifacts and checksums when applicable; document release notes and recognize prereleases. Keep external registry publishing as a separate, explicitly authorized step. Document how to create a release and rerun an existing tag, and update AI instructions when release or CI workflows change.
-
-Before completing release-pipeline work, inspect all workflows and verify their triggers, permissions, dependencies, artifact paths and checks, and that manual reruns check out the requested tag. Run applicable checks and inspect the final diff. Report whether the pipeline was validated locally; do not imply that a release was published or verified on GitHub unless that actually happened.
-
-## Completion
-
-Finish only when the requested change, relevant tests and checks, version/changelog, affected documentation, generated artifacts, and workflow consistency are complete. For this documentation repository, run `python3 scripts/validate_repo.py`.
+Use `docs/ai/INDEX.md`, when present, to navigate non-trivial project documentation. Follow the repository README and existing configuration/scripts for setup and validation. When copying this template into another project, replace or remove nonexistent paths; add only the real entry points and commands an agent needs.

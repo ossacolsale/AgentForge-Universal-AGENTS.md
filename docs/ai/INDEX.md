@@ -1,3 +1,10 @@
-# AI repository guide
+# AI documentation index
 
-This repository publishes a reusable root `AGENTS.md`; it has no application code. Read the [repository map](CODE-MAP.md) before editing. At each new work session, `AGENTS.md` directs Codex to check [`SESSION-STATE.md`](SESSION-STATE.md) for resumable work and verify it against Git. Run `python3 scripts/validate_repo.py` after documentation, metadata, or workflow changes. CI runs this check for pushes and pull requests; releases are intentionally manual and no release workflow exists.
+Use this map to open only the context relevant to a task. The repository is a documentation template; it has no application specifications or architecture to consult.
+
+| Document | Authority and when to read |
+| --- | --- |
+| [`AGENTS.md`](../../AGENTS.md) | Operating rules for agents; read for repository-wide workflow and safety expectations. |
+| [`CODE-MAP.md`](CODE-MAP.md) | Current file and directory layout; read when locating or changing repository structure. |
+| [`SESSION-STATE.md`](SESSION-STATE.md) | Handoff for significant unfinished work; consult when a request may continue pending work. Inactive means there is nothing to resume. |
+| [`README.md`](../../README.md) | Human-facing template use, adaptation, and validation. |
