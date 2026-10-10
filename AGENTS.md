@@ -8,7 +8,7 @@ This is an operating contract for AI agents, not the product specification, func
 
 - Follow the user's request and applicable instruction hierarchy. Surface conflicts rather than silently guessing.
 - Inspect the working tree and relevant files before editing. Preserve unrelated changes; never assume the checkout is clean.
-- Make the smallest complete change. Prefer existing patterns; avoid speculative refactors, needless dependencies, duplication, and process for its own sake.
+- Make the smallest complete change: the smallest change that fulfills the full requested scope, not merely the smallest independently testable increment. Prefer existing patterns; avoid speculative refactors, needless dependencies, duplication, and process for its own sake.
 - Use progressive disclosure: read only what the task needs. For a small, self-contained change, inspect target files and local instructions; do not read every index, specification, plan, or test report. For cross-cutting, architectural, ambiguous, high-risk, or resumed work, consult `docs/ai/INDEX.md` if present, then open only relevant entries.
 - Consult `docs/ai/SESSION-STATE.md` only when the task may continue unfinished work. Treat it as a handoff, not proof; verify relevant claims against Git, the working tree, and tests. Do not reconstruct unrelated history.
 - Protect secrets and sensitive data. Destructive actions, publication, deployment, changes to external services, or material costs require explicit authorization.
@@ -26,8 +26,10 @@ Code and tests describe current implementation; approved specifications describe
 
 ## Changes and verification
 
-- Plan only when staged execution materially helps. Update documentation when a change makes it inaccurate or alters durable requirements, architecture, interfaces, workflows, or validation. Follow project changelog/version policy; documentation-only changes need no version bump unless policy says otherwise.
-- Run checks proportionate to the task and risk: targeted checks for narrow changes, broader suites for cross-cutting or high-risk work. Add regression coverage for bug fixes where practical. Report only checks actually run.
+- Plan only when staged execution materially helps. For a clear, bounded task, complete related implementation work before handing control back to the user. Do not stop for confirmation between dependent subtasks unless blocked by a material ambiguity, a necessary decision, a safety constraint, or an authorization requirement.
+- Update documentation when a change makes it inaccurate or alters durable requirements, architecture, interfaces, workflows, or validation. Follow project changelog/version policy; documentation-only changes need no version bump unless policy says otherwise.
+- Run checks proportionate to the task and risk. Run fast, relevant automated checks during development and fix failures as they arise. Add regression coverage for bug fixes where practical. Group costly, manual, hardware-dependent, or end-to-end acceptance checks at meaningful integration checkpoints once related changes are ready; run earlier when that materially reduces risk or resolves an important uncertainty. Distinguish automated results from checks that still require user participation.
+- Before handoff, verify the requested scope as a whole, run applicable final checks, and consolidate remaining manual checks into a clear checklist. If a genuine blocker prevents completion, report it instead of silently reducing scope. Report only checks actually run.
 - Inspect the final diff for unintended changes. Do not add or redesign release automation for unrelated work.
 
 ## Release work
