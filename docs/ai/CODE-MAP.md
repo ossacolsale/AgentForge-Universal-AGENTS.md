@@ -14,6 +14,8 @@ docs/ai/
   SESSION-STATE.md
 scripts/
   validate_repo.py
+tests/
+  test_validate_repo.py
 .github/workflows/
   ci.yml
 ```

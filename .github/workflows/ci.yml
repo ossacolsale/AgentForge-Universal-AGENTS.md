@@ -16,3 +16,4 @@ jobs:
         with:
           python-version: "3.x"
       - run: python3 scripts/validate_repo.py
+      - run: python3 -B -m unittest discover -s tests -v

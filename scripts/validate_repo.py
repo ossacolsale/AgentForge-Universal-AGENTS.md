@@ -52,7 +52,35 @@ def main() -> int:
     if "python3 scripts/validate_repo.py" not in workflow:
         errors.append("CI workflow must run scripts/validate_repo.py")
 
+    for warning in documentation_warnings(ROOT):
+        print(f"Advisory: {warning}", file=sys.stderr)
+
     return report(errors)
+
+
+def documentation_warnings(root: Path) -> list[str]:
+    """Suggest smaller operational docs without imposing hard size limits."""
+    warnings = []
+    for relative, limit in (("AGENTS.md", 8000), ("docs/ai/INDEX.md", 3000)):
+        path = root / relative
+        if path.is_file():
+            characters = len(path.read_text(encoding="utf-8"))
+            if characters > limit:
+                warnings.append(
+                    f"{relative} has {characters} characters (suggested max {limit}); "
+                    "consider moving details to focused documents"
+                )
+
+    state = root / "docs/ai/SESSION-STATE.md"
+    if state.is_file():
+        content = state.read_text(encoding="utf-8")
+        words = len(content.split())
+        if words > 150:
+            warnings.append(
+                f"docs/ai/SESSION-STATE.md has {words} words (suggested max 150); "
+                "keep only information needed to resume unfinished work"
+            )
+    return warnings
 
 
 def report(errors: list[str]) -> int:

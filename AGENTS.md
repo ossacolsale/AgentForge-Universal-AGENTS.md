@@ -24,6 +24,13 @@ This is an operating contract for AI agents, not the product specification, func
 
 Code and tests describe current implementation; approved specifications describe intended behavior. If they disagree, investigate and report the discrepancy.
 
+## Documentation economy
+
+- Documentation updates are conditional, not a checklist item for every commit. Update the authoritative source when its content becomes inaccurate or a durable decision, contract, workflow, or validation requirement changes; follow the project's release/changelog policy.
+- Give each durable fact one authoritative home. Link to it elsewhere rather than copying implementation details, test results, or the same change narrative into multiple documents.
+- Keep plans, handoffs, and test summaries concise. Prefer reproducible scenarios, actual results, revision/environment details when relevant, limitations, and stable evidence references over command transcripts or chronological agent activity.
+- Preserve evidence not reliably reconstructible from Git and automated tests (such as hardware observations, external-system behavior, migrations, security incidents, and unresolved regressions). Keep historical detail discoverable but outside the normal reading path; never expose secrets in evidence.
+
 ## Changes and verification
 
 - Plan only when staged execution materially helps. For a clear, bounded task, complete related implementation work before handing control back to the user. Do not stop for confirmation between dependent subtasks unless blocked by a material ambiguity, a necessary decision, a safety constraint, or an authorization requirement.
