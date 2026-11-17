@@ -3,6 +3,7 @@
 ## Unreleased
 
 ### Changed
+- Refined the operating contract with explicit priorities, cohesive minimal code, present-need design decisions, efficient context use, risk-proportionate validation, and completion criteria.
 - Clarified selective documentation updates and evidence retention; added non-blocking documentation-size advisories and tests.
 - Added automatic session-state recovery guidance and a concise operational memory file.
 - Added reusable guidance for reliable, tag-based GitHub Release pipelines in software projects.
