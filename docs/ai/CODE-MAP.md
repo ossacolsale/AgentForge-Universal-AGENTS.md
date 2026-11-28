@@ -9,6 +9,7 @@ CHANGELOG.md
 VERSION
 LICENSE
 docs/ai/
+  GITHUB-FREE.md
   INDEX.md
   CODE-MAP.md
   SESSION-STATE.md

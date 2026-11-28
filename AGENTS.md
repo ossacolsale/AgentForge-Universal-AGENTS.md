@@ -16,6 +16,7 @@ This is an operating contract for AI agents, not a specification, architecture m
 - Read `docs/ai/SESSION-STATE.md` only to resume unfinished work. Treat it as a handoff, not proof; verify relevant claims against Git, the working tree, and tests.
 - Protect secrets and sensitive data. Destruction, publication, deployment, external-service changes, and material costs require explicit authorization.
 - Reuse existing CI/CD workflows first. Require a concrete need for new or expanded automation, including full builds, job matrices, scheduled runs, and artifact uploads. Scope triggers to that need, avoid duplicate runs, and retain artifacts only as long as useful. Seek user approval for significant recurring resource use or unrequested operational effects. Preserve required tests, security checks, and compatibility.
+- For workflows, storage, or distribution on GitHub, follow the [GitHub Free resource policy](docs/ai/GITHUB-FREE.md).
 
 ## Document roles
 

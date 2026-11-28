@@ -12,6 +12,7 @@ REQUIRED = (
     "CHANGELOG.md",
     "VERSION",
     "LICENSE",
+    "docs/ai/GITHUB-FREE.md",
     "docs/ai/INDEX.md",
     "docs/ai/CODE-MAP.md",
     "docs/ai/SESSION-STATE.md",
